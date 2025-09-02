@@ -9,6 +9,12 @@ type SearchParams = {
   page?: string
 }
 
+export const metadata = {
+  title: 'Blog | Koso Bilegsaikhan',
+  description:
+    'Blogs written by Koso Bilegsaikhan in a variety of topics, most of them programming.',
+}
+
 export default async function BlogIndex({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const { page: pageParam } = await searchParams
   const currentPage = Math.max(parseInt(pageParam || '1', 10) || 1, 1)

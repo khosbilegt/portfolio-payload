@@ -10,6 +10,7 @@ import sharp from 'sharp'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
+import { seoPlugin } from '@payloadcms/plugin-seo'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -33,6 +34,18 @@ export default buildConfig({
   sharp,
   plugins: [
     payloadCloudPlugin(),
-    // storage-adapter-placeholder
+    seoPlugin({
+      collections: [Pages],
+      uploadsCollection: 'media',
+      generateTitle: ({ doc }) => {
+        return doc.title
+      },
+      generateDescription: ({ doc }) => {
+        return doc.description
+      },
+      generateImage: ({ doc }) => {
+        return doc.image
+      },
+    }),
   ],
 })

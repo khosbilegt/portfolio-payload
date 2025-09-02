@@ -9,6 +9,14 @@ import { DonationBlock } from '@/blocks/donation/config'
 import { ProjectShowcaseBlock } from '@/blocks/projectShowcase/config'
 import type { CollectionConfig } from 'payload'
 
+import {
+  MetaDescriptionField,
+  MetaImageField,
+  MetaTitleField,
+  OverviewField,
+  PreviewField,
+} from '@payloadcms/plugin-seo/fields'
+
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
@@ -31,20 +39,6 @@ export const Pages: CollectionConfig = {
       required: true,
     },
     {
-      name: 'date',
-      type: 'date',
-      required: true,
-    },
-    {
-      name: 'author',
-      type: 'relationship',
-      relationTo: 'users',
-    },
-    {
-      name: 'isPublic',
-      type: 'checkbox',
-    },
-    {
       name: 'blocks',
       type: 'blocks',
       blocks: [
@@ -57,6 +51,34 @@ export const Pages: CollectionConfig = {
         BlogCardsBlock,
         DonationBlock,
         ProjectShowcaseBlock,
+      ],
+    },
+    {
+      type: 'tabs',
+      tabs: [
+        {
+          name: 'meta',
+          fields: [
+            OverviewField({
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+              imagePath: 'meta.image',
+            }),
+            MetaTitleField({
+              hasGenerateFn: true,
+            }),
+            MetaImageField({
+              relationTo: 'media',
+            }),
+
+            MetaDescriptionField({}),
+            PreviewField({
+              hasGenerateFn: true,
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+            }),
+          ],
+        },
       ],
     },
   ],

@@ -123,9 +123,6 @@ export interface Page {
   id: string;
   title: string;
   slug: string;
-  date: string;
-  author?: (string | null) | User;
-  isPublic?: boolean | null;
   blocks?:
     | (
         | HeroBlock
@@ -139,35 +136,31 @@ export interface Page {
         | ProjectShowcaseBlock
       )[]
     | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+    description?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
+ * via the `definition` "HeroBlock".
  */
-export interface User {
-  id: string;
-  name: string;
-  profilePicture?: (string | null) | Media;
-  bio?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
+export interface HeroBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  description?: string | null;
+  ctaText?: string | null;
+  ctaLink?: string | null;
+  backgroundImage?: (string | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -187,21 +180,6 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "HeroBlock".
- */
-export interface HeroBlock {
-  title?: string | null;
-  subtitle?: string | null;
-  description?: string | null;
-  ctaText?: string | null;
-  ctaLink?: string | null;
-  backgroundImage?: (string | null) | Media;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'hero';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -515,6 +493,33 @@ export interface ProjectShowcaseBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: string;
+  name: string;
+  profilePicture?: (string | null) | Media;
+  bio?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -581,9 +586,6 @@ export interface PayloadMigration {
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
-  date?: T;
-  author?: T;
-  isPublic?: T;
   blocks?:
     | T
     | {
@@ -596,6 +598,13 @@ export interface PagesSelect<T extends boolean = true> {
         blogCards?: T | BlogCardsBlockSelect<T>;
         donation?: T | DonationBlockSelect<T>;
         projectShowcase?: T | ProjectShowcaseBlockSelect<T>;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
       };
   updatedAt?: T;
   createdAt?: T;

@@ -1,4 +1,11 @@
 import { CollectionConfig } from 'payload'
+import {
+  MetaDescriptionField,
+  MetaImageField,
+  MetaTitleField,
+  OverviewField,
+  PreviewField,
+} from '@payloadcms/plugin-seo/fields'
 
 export const Blog: CollectionConfig = {
   slug: 'blog',
@@ -13,6 +20,11 @@ export const Blog: CollectionConfig = {
   fields: [
     {
       name: 'title',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'category',
       type: 'text',
       required: true,
     },
@@ -34,6 +46,34 @@ export const Blog: CollectionConfig = {
     {
       name: 'content',
       type: 'richText',
+    },
+    {
+      type: 'tabs',
+      tabs: [
+        {
+          name: 'meta',
+          fields: [
+            OverviewField({
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+              imagePath: 'meta.image',
+            }),
+            MetaTitleField({
+              hasGenerateFn: true,
+            }),
+            MetaImageField({
+              relationTo: 'media',
+            }),
+
+            MetaDescriptionField({}),
+            PreviewField({
+              hasGenerateFn: true,
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+            }),
+          ],
+        },
+      ],
     },
   ],
 }

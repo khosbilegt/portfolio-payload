@@ -543,6 +543,7 @@ export interface User {
 export interface Blog {
   id: string;
   title: string;
+  category: string;
   slug: string;
   author?: (string | null) | User;
   publishedAt: string;
@@ -561,6 +562,14 @@ export interface Blog {
     };
     [k: string]: unknown;
   } | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+    description?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -980,10 +989,18 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface BlogSelect<T extends boolean = true> {
   title?: T;
+  category?: T;
   slug?: T;
   author?: T;
   publishedAt?: T;
   content?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

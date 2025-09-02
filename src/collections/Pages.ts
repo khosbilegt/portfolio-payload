@@ -7,6 +7,7 @@ import { ServicesBlock } from '@/blocks/services/config'
 import { BlogCardsBlock } from '@/blocks/blogCards/config'
 import { DonationBlock } from '@/blocks/donation/config'
 import { ProjectShowcaseBlock } from '@/blocks/projectShowcase/config'
+import { CodeBlock } from '@/blocks/code/config'
 import type { CollectionConfig } from 'payload'
 
 import {
@@ -51,6 +52,7 @@ export const Pages: CollectionConfig = {
         BlogCardsBlock,
         DonationBlock,
         ProjectShowcaseBlock,
+        CodeBlock,
       ],
     },
     {

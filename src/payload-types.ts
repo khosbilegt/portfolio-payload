@@ -136,6 +136,7 @@ export interface Page {
         | BlogCardsBlock
         | DonationBlock
         | ProjectShowcaseBlock
+        | CodeBlock
       )[]
     | null;
   meta?: {
@@ -495,6 +496,21 @@ export interface ProjectShowcaseBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CodeBlock".
+ */
+export interface CodeBlock {
+  /**
+   * Optional. Used for syntax highlighting classes (e.g., language-ts).
+   */
+  language?: ('plaintext' | 'javascript' | 'typescript' | 'json' | 'css' | 'html' | 'bash' | 'markdown') | null;
+  code: string;
+  caption?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'codeBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -632,6 +648,7 @@ export interface PagesSelect<T extends boolean = true> {
         blogCards?: T | BlogCardsBlockSelect<T>;
         donation?: T | DonationBlockSelect<T>;
         projectShowcase?: T | ProjectShowcaseBlockSelect<T>;
+        codeBlock?: T | CodeBlockSelect<T>;
       };
   meta?:
     | T
@@ -900,6 +917,17 @@ export interface ProjectShowcaseBlockSelect<T extends boolean = true> {
       };
   showFilters?: T;
   layout?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CodeBlock_select".
+ */
+export interface CodeBlockSelect<T extends boolean = true> {
+  language?: T;
+  code?: T;
+  caption?: T;
   id?: T;
   blockName?: T;
 }

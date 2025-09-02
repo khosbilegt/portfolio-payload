@@ -14,6 +14,7 @@ import Donation from '@/blocks/donation/Donation'
 import ProjectShowcase from '@/blocks/projectShowcase/ProjectShowcase'
 import Certificates from '@/blocks/certificates/Certificates'
 import RichText from '@/components/RichText'
+import CodeBlock from '@/blocks/code/Code'
 
 const blockComponents = {
   hero: Hero,
@@ -25,10 +26,11 @@ const blockComponents = {
   donation: Donation,
   projectShowcase: ProjectShowcase,
   certificates: Certificates,
+  codeBlock: CodeBlock,
 } as const
 
 export const RenderBlocks: React.FC<{
-  blocks: Page['blocks'][0][]
+  blocks: any[]
 }> = (props) => {
   const { blocks } = props
 
@@ -40,9 +42,7 @@ export const RenderBlocks: React.FC<{
         {blocks.map((block, index) => {
           const { blockType } = block as any
 
-          // Render a generic rich text block if present
           if (blockType === 'richText' || blockType === 'content' || blockType === 'body') {
-            // Support common field keys used for lexical rich text
             const content = (block as any).richText ?? (block as any).content ?? (block as any).body
             return (
               <div key={index} className="prose dark:prose-invert max-w-none">
@@ -57,8 +57,7 @@ export const RenderBlocks: React.FC<{
             if (Block) {
               return (
                 <div key={index}>
-                  {/* @ts-expect-error there may be some mismatch between the expected types here */}
-                  <Block {...block} disableInnerContainer />
+                  <Block {...(block as any)} disableInnerContainer />
                 </div>
               )
             }

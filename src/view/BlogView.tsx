@@ -33,6 +33,17 @@ export default async function BlogView({ slug }: { slug: string }) {
       ? ((post.author as any).bio ?? '')
       : ''
 
+  const authorAvatar =
+    typeof post.author === 'object' && post.author !== null && 'profilePicture' in post.author
+      ? typeof (post.author as any).profilePicture === 'string'
+        ? post.author.profilePicture
+        : typeof post.author.profilePicture === 'object' &&
+            post.author.profilePicture !== null &&
+            'url' in post.author.profilePicture
+          ? (post.author.profilePicture as any).url || ''
+          : ''
+      : ''
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <article className="pt-20">
@@ -48,7 +59,17 @@ export default async function BlogView({ slug }: { slug: string }) {
               <div className="flex items-center gap-3">
                 {/* Author Avatar */}
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-semibold text-lg mt-4">
-                  {authorName ? authorName.charAt(0).toUpperCase() : 'A'}
+                  {authorAvatar ? (
+                    <img
+                      src={authorAvatar as string}
+                      alt={authorName}
+                      className="w-full h-full object-cover rounded-full mr-4"
+                    />
+                  ) : (
+                    <span className="text-white">
+                      {authorName ? authorName.charAt(0).toUpperCase() : 'A'}
+                    </span>
+                  )}
                 </div>
 
                 <div className="flex flex-col">

@@ -126,7 +126,9 @@ export interface Page {
   date: string;
   author?: (string | null) | User;
   isPublic?: boolean | null;
-  blocks?: HeroBlock[] | null;
+  blocks?:
+    | (HeroBlock | CareerBlock | EducationBlock | TestimonialsBlock | ServicesBlock | BlogCardsBlock | DonationBlock)[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -190,6 +192,185 @@ export interface HeroBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CareerBlock".
+ */
+export interface CareerBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  experiences?:
+    | {
+        company: string;
+        position: string;
+        duration: string;
+        location?: string | null;
+        description?: string | null;
+        achievements?:
+          | {
+              achievement?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        technologies?:
+          | {
+              technology?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'career';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EducationBlock".
+ */
+export interface EducationBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  educations?:
+    | {
+        institution: string;
+        degree: string;
+        field?: string | null;
+        duration: string;
+        location?: string | null;
+        gpa?: string | null;
+        description?: string | null;
+        achievements?:
+          | {
+              achievement?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        relevantCourses?:
+          | {
+              course?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'education';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialsBlock".
+ */
+export interface TestimonialsBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  testimonials?:
+    | {
+        name: string;
+        position?: string | null;
+        company?: string | null;
+        content: string;
+        rating?: number | null;
+        avatar?: (string | null) | Media;
+        featured?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'testimonials';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServicesBlock".
+ */
+export interface ServicesBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  services?:
+    | {
+        title: string;
+        description: string;
+        /**
+         * Icon name or emoji
+         */
+        icon?: string | null;
+        features?:
+          | {
+              feature?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        price?: string | null;
+        priceDescription?: string | null;
+        ctaText?: string | null;
+        ctaLink?: string | null;
+        featured?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'services';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogCardsBlock".
+ */
+export interface BlogCardsBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  /**
+   * Number of blog posts to display
+   */
+  showCount?: number | null;
+  viewAllText?: string | null;
+  viewAllLink?: string | null;
+  posts?:
+    | {
+        title: string;
+        excerpt: string;
+        slug: string;
+        publishedAt: string;
+        author?: string | null;
+        readTime?: string | null;
+        featuredImage?: (string | null) | Media;
+        category?: string | null;
+        tags?:
+          | {
+              tag?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'blogCards';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DonationBlock".
+ */
+export interface DonationBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  description?: string | null;
+  thankYouMessage?: string | null;
+  donationLinks?:
+    | {
+        platform?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'donation';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -266,6 +447,12 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         hero?: T | HeroBlockSelect<T>;
+        career?: T | CareerBlockSelect<T>;
+        education?: T | EducationBlockSelect<T>;
+        testimonials?: T | TestimonialsBlockSelect<T>;
+        services?: T | ServicesBlockSelect<T>;
+        blogCards?: T | BlogCardsBlockSelect<T>;
+        donation?: T | DonationBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -281,6 +468,173 @@ export interface HeroBlockSelect<T extends boolean = true> {
   ctaText?: T;
   ctaLink?: T;
   backgroundImage?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CareerBlock_select".
+ */
+export interface CareerBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  experiences?:
+    | T
+    | {
+        company?: T;
+        position?: T;
+        duration?: T;
+        location?: T;
+        description?: T;
+        achievements?:
+          | T
+          | {
+              achievement?: T;
+              id?: T;
+            };
+        technologies?:
+          | T
+          | {
+              technology?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EducationBlock_select".
+ */
+export interface EducationBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  educations?:
+    | T
+    | {
+        institution?: T;
+        degree?: T;
+        field?: T;
+        duration?: T;
+        location?: T;
+        gpa?: T;
+        description?: T;
+        achievements?:
+          | T
+          | {
+              achievement?: T;
+              id?: T;
+            };
+        relevantCourses?:
+          | T
+          | {
+              course?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialsBlock_select".
+ */
+export interface TestimonialsBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  testimonials?:
+    | T
+    | {
+        name?: T;
+        position?: T;
+        company?: T;
+        content?: T;
+        rating?: T;
+        avatar?: T;
+        featured?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ServicesBlock_select".
+ */
+export interface ServicesBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  services?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        icon?: T;
+        features?:
+          | T
+          | {
+              feature?: T;
+              id?: T;
+            };
+        price?: T;
+        priceDescription?: T;
+        ctaText?: T;
+        ctaLink?: T;
+        featured?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogCardsBlock_select".
+ */
+export interface BlogCardsBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  showCount?: T;
+  viewAllText?: T;
+  viewAllLink?: T;
+  posts?:
+    | T
+    | {
+        title?: T;
+        excerpt?: T;
+        slug?: T;
+        publishedAt?: T;
+        author?: T;
+        readTime?: T;
+        featuredImage?: T;
+        category?: T;
+        tags?:
+          | T
+          | {
+              tag?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DonationBlock_select".
+ */
+export interface DonationBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  description?: T;
+  thankYouMessage?: T;
+  donationLinks?:
+    | T
+    | {
+        platform?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }

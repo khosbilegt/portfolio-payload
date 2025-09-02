@@ -5,9 +5,21 @@ import React, { Fragment } from 'react'
 import type { Page } from '@/payload-types'
 
 import Hero from '@/blocks/hero/Hero'
+import Career from '@/blocks/career/Career'
+import Education from '@/blocks/education/Education'
+import Testimonials from '@/blocks/testimonials/Testimonials'
+import Services from '@/blocks/services/Services'
+import BlogCards from '@/blocks/blogCards/BlogCards'
+import Donation from '@/blocks/donation/Donation'
 
 const blockComponents = {
   hero: Hero,
+  career: Career,
+  education: Education,
+  testimonials: Testimonials,
+  services: Services,
+  blogCards: BlogCards,
+  donation: Donation,
 }
 
 export const RenderBlocks: React.FC<{

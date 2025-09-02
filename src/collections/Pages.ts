@@ -1,4 +1,10 @@
 import { HeroBlock } from '@/blocks/hero/config'
+import { CareerBlock } from '@/blocks/career/config'
+import { EducationBlock } from '@/blocks/education/config'
+import { TestimonialsBlock } from '@/blocks/testimonials/config'
+import { ServicesBlock } from '@/blocks/services/config'
+import { BlogCardsBlock } from '@/blocks/blogCards/config'
+import { DonationBlock } from '@/blocks/donation/config'
 import type { CollectionConfig } from 'payload'
 
 export const Pages: CollectionConfig = {
@@ -39,7 +45,15 @@ export const Pages: CollectionConfig = {
     {
       name: 'blocks',
       type: 'blocks',
-      blocks: [HeroBlock],
+      blocks: [
+        HeroBlock,
+        CareerBlock,
+        EducationBlock,
+        TestimonialsBlock,
+        ServicesBlock,
+        BlogCardsBlock,
+        DonationBlock,
+      ],
     },
   ],
 }

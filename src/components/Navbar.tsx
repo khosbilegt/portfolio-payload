@@ -22,7 +22,7 @@ const defaultLinks: NavLink[] = [
 ]
 
 function Navbar({
-  siteName = 'Portfolio',
+  siteName = 'koso.dev',
   links = defaultLinks,
   showThemeToggle = true,
 }: NavbarProps) {

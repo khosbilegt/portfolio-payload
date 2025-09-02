@@ -11,6 +11,8 @@ import Testimonials from '@/blocks/testimonials/Testimonials'
 import Services from '@/blocks/services/Services'
 import BlogCards from '@/blocks/blogCards/BlogCards'
 import Donation from '@/blocks/donation/Donation'
+import ProjectShowcase from '@/blocks/projectShowcase/ProjectShowcase'
+import Certificates from '@/blocks/certificates/Certificates'
 
 const blockComponents = {
   hero: Hero,
@@ -20,6 +22,8 @@ const blockComponents = {
   services: Services,
   blogCards: BlogCards,
   donation: Donation,
+  projectShowcase: ProjectShowcase,
+  certificates: Certificates,
 }
 
 export const RenderBlocks: React.FC<{

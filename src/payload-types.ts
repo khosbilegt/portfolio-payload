@@ -127,7 +127,17 @@ export interface Page {
   author?: (string | null) | User;
   isPublic?: boolean | null;
   blocks?:
-    | (HeroBlock | CareerBlock | EducationBlock | TestimonialsBlock | ServicesBlock | BlogCardsBlock | DonationBlock)[]
+    | (
+        | HeroBlock
+        | CareerBlock
+        | EducationBlock
+        | TestimonialsBlock
+        | CertificatesBlock
+        | ServicesBlock
+        | BlogCardsBlock
+        | DonationBlock
+        | ProjectShowcaseBlock
+      )[]
     | null;
   updatedAt: string;
   createdAt: string;
@@ -286,6 +296,78 @@ export interface TestimonialsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CertificatesBlock".
+ */
+export interface CertificatesBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  certificates?:
+    | {
+        title: string;
+        issuer: string;
+        description?: string | null;
+        issueDate: string;
+        /**
+         * Leave empty if certificate does not expire
+         */
+        expiryDate?: string | null;
+        /**
+         * Certificate ID or credential number
+         */
+        credentialId?: string | null;
+        /**
+         * Certificate image or badge
+         */
+        certificateImage?: (string | null) | Media;
+        /**
+         * URL to verify the certificate
+         */
+        verificationUrl?: string | null;
+        /**
+         * Skills covered by this certificate
+         */
+        skills?:
+          | {
+              skill?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        category?:
+          | (
+              | 'programming'
+              | 'cloud'
+              | 'data-science'
+              | 'devops'
+              | 'security'
+              | 'design'
+              | 'project-management'
+              | 'other'
+            )
+          | null;
+        featured?: boolean | null;
+        status?: ('active' | 'expired' | 'in-progress') | null;
+        /**
+         * Score or grade achieved (e.g., "95%", "A+", "Pass")
+         */
+        score?: string | null;
+        /**
+         * Course duration (e.g., "40 hours", "3 months")
+         */
+        duration?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Show category filters above certificates
+   */
+  showFilters?: boolean | null;
+  layout?: ('grid' | 'list' | 'timeline') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'certificates';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ServicesBlock".
  */
 export interface ServicesBlock {
@@ -374,6 +456,65 @@ export interface DonationBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProjectShowcaseBlock".
+ */
+export interface ProjectShowcaseBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  projects?:
+    | {
+        title: string;
+        description: string;
+        /**
+         * Brief one-line description for card view
+         */
+        shortDescription?: string | null;
+        featuredImage: string | Media;
+        gallery?:
+          | {
+              image?: (string | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        technologies?:
+          | {
+              technology?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        category?: ('web' | 'mobile' | 'desktop' | 'design' | 'other') | null;
+        status?: ('completed' | 'in-progress' | 'concept') | null;
+        featured?: boolean | null;
+        /**
+         * Live demo URL
+         */
+        liveUrl?: string | null;
+        /**
+         * GitHub repository URL
+         */
+        githubUrl?: string | null;
+        /**
+         * Link to detailed case study
+         */
+        caseStudyUrl?: string | null;
+        startDate?: string | null;
+        endDate?: string | null;
+        client?: string | null;
+        teamSize?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Show category filters above projects
+   */
+  showFilters?: boolean | null;
+  layout?: ('grid' | 'masonry' | 'list') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'projectShowcase';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -450,9 +591,11 @@ export interface PagesSelect<T extends boolean = true> {
         career?: T | CareerBlockSelect<T>;
         education?: T | EducationBlockSelect<T>;
         testimonials?: T | TestimonialsBlockSelect<T>;
+        certificates?: T | CertificatesBlockSelect<T>;
         services?: T | ServicesBlockSelect<T>;
         blogCards?: T | BlogCardsBlockSelect<T>;
         donation?: T | DonationBlockSelect<T>;
+        projectShowcase?: T | ProjectShowcaseBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -561,6 +704,42 @@ export interface TestimonialsBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CertificatesBlock_select".
+ */
+export interface CertificatesBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  certificates?:
+    | T
+    | {
+        title?: T;
+        issuer?: T;
+        description?: T;
+        issueDate?: T;
+        expiryDate?: T;
+        credentialId?: T;
+        certificateImage?: T;
+        verificationUrl?: T;
+        skills?:
+          | T
+          | {
+              skill?: T;
+              id?: T;
+            };
+        category?: T;
+        featured?: T;
+        status?: T;
+        score?: T;
+        duration?: T;
+        id?: T;
+      };
+  showFilters?: T;
+  layout?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ServicesBlock_select".
  */
 export interface ServicesBlockSelect<T extends boolean = true> {
@@ -635,6 +814,49 @@ export interface DonationBlockSelect<T extends boolean = true> {
         platform?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProjectShowcaseBlock_select".
+ */
+export interface ProjectShowcaseBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  projects?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        shortDescription?: T;
+        featuredImage?: T;
+        gallery?:
+          | T
+          | {
+              image?: T;
+              id?: T;
+            };
+        technologies?:
+          | T
+          | {
+              technology?: T;
+              id?: T;
+            };
+        category?: T;
+        status?: T;
+        featured?: T;
+        liveUrl?: T;
+        githubUrl?: T;
+        caseStudyUrl?: T;
+        startDate?: T;
+        endDate?: T;
+        client?: T;
+        teamSize?: T;
+        id?: T;
+      };
+  showFilters?: T;
+  layout?: T;
   id?: T;
   blockName?: T;
 }

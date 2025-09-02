@@ -113,9 +113,9 @@ const defaultSections: FooterSection[] = [
 ]
 
 function Footer({
-  siteName = 'Portfolio',
-  tagline = 'Full Stack Developer & Creative Thinker',
-  description = 'Building beautiful digital experiences with modern technologies.',
+  siteName = 'koso.dev',
+  tagline = 'Full-Stack Developer & Consultant',
+  description = 'I specialize in researching obscure and emerging technologies to uncover hidden opportunities. My focus is turning technical exploration into real business value.',
   sections = defaultSections,
   socialLinks = defaultSocialLinks,
   contactEmail = 'khosbilegt.b@gmail.com',

@@ -1,8 +1,9 @@
 import PageView from '@/view/PageView'
 import React from 'react'
 
-function SlugPage({ params }: { params: { slug: string } }) {
-  return <PageView slug={params.slug} />
+async function SlugPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  return <PageView slug={slug} />
 }
 
 export default SlugPage

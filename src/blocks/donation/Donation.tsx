@@ -53,13 +53,19 @@ function Donation({
   }
 
   return (
-    <section className="py-16 bg-gradient-to-br from-gray-50 to-white">
+    <section className="py-16 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900">
       <div className="max-w-4xl mx-auto px-6 lg:px-12">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">{title}</h2>
-          {subtitle && <p className="text-lg md:text-xl text-gray-600 mb-6">{subtitle}</p>}
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            {title}
+          </h2>
+          {subtitle && (
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6">{subtitle}</p>
+          )}
           {description && (
-            <p className="text-gray-700 max-w-2xl mx-auto leading-relaxed">{description}</p>
+            <p className="text-gray-700 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              {description}
+            </p>
           )}
         </div>
 
@@ -67,7 +73,7 @@ function Donation({
           {donationLinks.map((link, index) => (
             <div
               key={index}
-              className={`bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-all duration-300 ${
+              className={`bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md hover:shadow-lg transition-all duration-300 ${
                 link.featured ? 'ring-2 ring-green-primary lg:scale-105' : ''
               }`}
             >
@@ -81,9 +87,13 @@ function Donation({
 
               <div className="text-center mb-4">
                 {link.icon && <div className="text-3xl mb-3">{link.icon}</div>}
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{link.platform}</h3>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  {link.platform}
+                </h3>
                 {link.description && (
-                  <p className="text-gray-600 text-sm leading-relaxed">{link.description}</p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                    {link.description}
+                  </p>
                 )}
               </div>
 

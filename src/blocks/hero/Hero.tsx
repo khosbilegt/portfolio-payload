@@ -18,14 +18,14 @@ function Hero({
   backgroundImage,
 }: HeroProps) {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-green-primary via-green-secondary to-green-tertiary">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-green-primary via-green-secondary to-green-tertiary dark:from-green-secondary dark:via-green-tertiary dark:to-gray-900">
       {backgroundImage && (
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat z-10"
           style={{ backgroundImage: `url(${backgroundImage})` }}
         />
       )}
-      <div className="absolute inset-0 bg-gradient-to-br from-green-primary/95 via-green-secondary/95 to-green-tertiary/95 z-20" />
+      <div className="absolute inset-0 bg-gradient-to-br from-green-primary/95 via-green-secondary/95 to-green-tertiary/95 dark:from-green-secondary/95 dark:via-green-tertiary/95 dark:to-gray-900/95 z-20" />
 
       <div className="relative z-30 grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-24 max-w-7xl w-full px-6 lg:px-12 items-center">
         <div className="animate-fade-in-up text-center lg:text-left">

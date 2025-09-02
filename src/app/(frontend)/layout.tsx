@@ -1,4 +1,6 @@
 import React from 'react'
+import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 import './styles.css'
 
 export const metadata = {
@@ -12,7 +14,9 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <main>{children}</main>
+        <Navbar />
+        <main className="pt-16">{children}</main>
+        <Footer />
       </body>
     </html>
   )

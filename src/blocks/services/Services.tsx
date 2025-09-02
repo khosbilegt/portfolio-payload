@@ -24,12 +24,16 @@ function Services({
   services = [],
 }: ServicesProps) {
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-gray-50 dark:bg-gray-800">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">{title}</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            {title}
+          </h2>
           {subtitle && (
-            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">{subtitle}</p>
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              {subtitle}
+            </p>
           )}
         </div>
 
@@ -37,7 +41,7 @@ function Services({
           {services.map((service, index) => (
             <div
               key={index}
-              className={`bg-white rounded-lg p-8 hover:shadow-lg transition-all duration-300 ${
+              className={`bg-white dark:bg-gray-900 rounded-lg p-8 hover:shadow-lg transition-all duration-300 ${
                 service.featured ? 'ring-2 ring-green-primary lg:scale-105 relative' : 'shadow-md'
               }`}
             >
@@ -51,17 +55,22 @@ function Services({
 
               <div className="text-center mb-6">
                 {service.icon && <div className="text-4xl mb-4">{service.icon}</div>}
-                <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2">
                   {service.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">{service.description}</p>
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                  {service.description}
+                </p>
               </div>
 
               {service.features && service.features.length > 0 && (
                 <div className="mb-6">
                   <ul className="space-y-2">
                     {service.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center text-gray-700">
+                      <li
+                        key={featureIndex}
+                        className="flex items-center text-gray-700 dark:text-gray-300"
+                      >
                         <svg
                           className="w-5 h-5 text-green-primary mr-3 flex-shrink-0"
                           fill="currentColor"
@@ -82,9 +91,13 @@ function Services({
 
               {service.price && (
                 <div className="text-center mb-6">
-                  <div className="text-3xl font-bold text-gray-900 mb-1">{service.price}</div>
+                  <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
+                    {service.price}
+                  </div>
                   {service.priceDescription && (
-                    <div className="text-gray-600 text-sm">{service.priceDescription}</div>
+                    <div className="text-gray-600 dark:text-gray-300 text-sm">
+                      {service.priceDescription}
+                    </div>
                   )}
                 </div>
               )}

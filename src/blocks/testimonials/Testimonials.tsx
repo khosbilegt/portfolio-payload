@@ -38,12 +38,16 @@ function Testimonials({
   }
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">{title}</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            {title}
+          </h2>
           {subtitle && (
-            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">{subtitle}</p>
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              {subtitle}
+            </p>
           )}
         </div>
 
@@ -51,13 +55,13 @@ function Testimonials({
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className={`bg-gray-50 rounded-lg p-6 hover:shadow-lg transition-all duration-300 ${
+              className={`bg-gray-50 dark:bg-gray-800 rounded-lg p-6 hover:shadow-lg transition-all duration-300 ${
                 testimonial.featured ? 'ring-2 ring-green-primary lg:scale-105' : ''
               }`}
             >
               <div className="flex items-center mb-4">{renderStars(testimonial.rating)}</div>
 
-              <blockquote className="text-gray-700 mb-6 leading-relaxed">
+              <blockquote className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
                 "{testimonial.content}"
               </blockquote>
 
@@ -76,9 +80,9 @@ function Testimonials({
                   </div>
                 )}
                 <div>
-                  <p className="font-semibold text-gray-900">{testimonial.name}</p>
+                  <p className="font-semibold text-gray-900 dark:text-white">{testimonial.name}</p>
                   {(testimonial.position || testimonial.company) && (
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
                       {testimonial.position}
                       {testimonial.position && testimonial.company && ' at '}
                       {testimonial.company}

@@ -60,6 +60,7 @@ function ProjectShowcase({
 }: ProjectShowcaseProps) {
   const [activeFilter, setActiveFilter] = useState<string>('all')
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const [showAllProjects, setShowAllProjects] = useState<boolean>(false)
 
   // Get unique categories from projects
   const categories = Array.from(
@@ -72,6 +73,14 @@ function ProjectShowcase({
     if (activeFilter === 'featured') return project.featured
     return project.category === activeFilter
   })
+
+  // Show only last 3 projects unless expanded
+  const displayProjects = showAllProjects ? filteredProjects : filteredProjects.slice(0, 3)
+
+  // Reset show all when filter changes
+  React.useEffect(() => {
+    setShowAllProjects(false)
+  }, [activeFilter])
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -293,10 +302,55 @@ function ProjectShowcase({
                 : 'columns-1 md:columns-2 lg:columns-3'
           }`}
         >
-          {filteredProjects.map((project, index) => (
+          {displayProjects.map((project, index) => (
             <ProjectCard key={index} project={project} />
           ))}
         </div>
+
+        {filteredProjects.length > 3 && (
+          <div className="text-center mt-8">
+            <button
+              onClick={() => setShowAllProjects(!showAllProjects)}
+              className="inline-flex items-center px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-300"
+            >
+              {showAllProjects ? (
+                <>
+                  Show Less Projects
+                  <svg
+                    className="ml-2 w-4 h-4 transform rotate-180"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </>
+              ) : (
+                <>
+                  Show All {filteredProjects.length} Projects
+                  <svg
+                    className="ml-2 w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </>
+              )}
+            </button>
+          </div>
+        )}
 
         {filteredProjects.length === 0 && (
           <div className="text-center py-12">

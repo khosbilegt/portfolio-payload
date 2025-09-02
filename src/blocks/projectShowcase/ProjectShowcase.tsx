@@ -218,12 +218,14 @@ function ProjectShowcase({
               </a>
             )}
             {project.caseStudyUrl && (
-              <button
-                onClick={() => setSelectedProject(project)}
-                className="text-gray-600 dark:text-gray-300 hover:text-green-primary dark:hover:text-green-primary font-medium text-sm transition-colors duration-200"
+              <a
+                href={project.caseStudyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-green-primary hover:text-green-secondary font-medium text-sm transition-colors duration-200"
               >
-                View Details
-              </button>
+                Case Study →
+              </a>
             )}
           </div>
 

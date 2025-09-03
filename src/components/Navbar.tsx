@@ -16,7 +16,6 @@ const defaultLinks: NavLink[] = [
   { label: 'Home', href: '/' },
   { label: 'Services', href: '/services' },
   { label: 'Blog', href: '/blog' },
-  { label: 'Contact', href: '/contact' },
 ]
 
 function Navbar({
@@ -26,7 +25,7 @@ function Navbar({
 }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isDark, setIsDark] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+  const [_, setScrolled] = useState(false)
 
   // Handle scroll effect
   useEffect(() => {

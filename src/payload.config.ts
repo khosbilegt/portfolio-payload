@@ -13,6 +13,7 @@ import { Pages } from './collections/Pages'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { Blog } from './collections/Blog'
 import { CodeBlock } from './blocks/code/config'
+import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -56,5 +57,6 @@ export default buildConfig({
         return doc.image
       },
     }),
+    formBuilderPlugin({}),
   ],
 })

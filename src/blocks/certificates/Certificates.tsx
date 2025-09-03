@@ -118,9 +118,9 @@ function Certificates({
           </div>
         )}
 
-        <div className="p-6 flex-1 flex flex-col">
+        <div className="p-6 flex-1 flex flex-col justify-between">
           {/* Header */}
-          <div className="flex items-start justify-between mb-3">
+          <div className="flex items-start justify-between">
             <div className="flex-1">
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
                 {certificate.title}

@@ -6,6 +6,11 @@ import './styles.css'
 export const metadata = {
   description: 'Personal website of Koso Bilegsaikhan',
   title: 'koso.dev',
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/icon.png',
+    apple: '/icon.png',
+  },
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {

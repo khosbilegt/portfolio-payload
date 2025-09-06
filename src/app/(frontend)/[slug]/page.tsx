@@ -7,6 +7,7 @@ import { draftMode } from 'next/headers'
 
 async function SlugPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
+
   return <PageView slug={slug} />
 }
 

@@ -20,6 +20,13 @@ export default async function PageView({ slug }: { slug: string }) {
 }
 
 const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
+ let slugToUse = slug
+  if (slug?.length < 1 || slug === null || slug === undefined || slug === '' || slug === '/') {
+    slugToUse = 'home'
+  }
+
+  console.log('slugToUse', slugToUse)
+
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
   const result = await payload.find({
@@ -29,7 +36,7 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
     pagination: false,
     where: {
       slug: {
-        equals: slug,
+        equals: slugToUse,
       },
     },
   })

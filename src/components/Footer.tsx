@@ -87,6 +87,7 @@ const defaultSections: FooterSection[] = [
       { label: 'Home', href: '/' },
       { label: 'Services', href: '/services' },
       { label: 'Blog', href: '/blog' },
+      { label: 'Ramblings', href: '/ramblings' },
       { label: 'Contact', href: '/contact' },
     ],
   },
@@ -103,6 +104,7 @@ const defaultSections: FooterSection[] = [
     title: 'Resources',
     links: [
       { label: 'Blog', href: '/blog' },
+      { label: 'Ramblings', href: '/ramblings' },
       { label: 'Case Studies', href: '/case-studies' },
       { label: 'Documentation', href: '/docs' },
       { label: 'Support', href: '/support' },

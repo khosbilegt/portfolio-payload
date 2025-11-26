@@ -71,6 +71,7 @@ export interface Config {
     users: User;
     media: Media;
     blog: Blog;
+    ramblings: Rambling;
     forms: Form;
     'form-submissions': FormSubmission;
     'payload-locked-documents': PayloadLockedDocument;
@@ -83,6 +84,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     blog: BlogSelect<false> | BlogSelect<true>;
+    ramblings: RamblingsSelect<false> | RamblingsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -579,6 +581,37 @@ export interface Blog {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ramblings".
+ */
+export interface Rambling {
+  id: string;
+  title: string;
+  slug: string;
+  tone?: ('casual' | 'reflective' | 'rant' | 'changelog') | null;
+  /**
+   * Used for ordering and RSS feeds.
+   */
+  publishedAt: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
 export interface Form {
@@ -790,6 +823,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'blog';
         value: string | Blog;
+      } | null)
+    | ({
+        relationTo: 'ramblings';
+        value: string | Rambling;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1204,6 +1241,19 @@ export interface BlogSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ramblings_select".
+ */
+export interface RamblingsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  tone?: T;
+  publishedAt?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
 }

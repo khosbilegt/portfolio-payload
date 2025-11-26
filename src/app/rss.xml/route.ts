@@ -31,25 +31,66 @@ const serializePost = (post: RequiredDataFromCollectionSlug<'blog'>) => {
   </item>`
 }
 
+const serializeRambling = (entry: RequiredDataFromCollectionSlug<'ramblings'>) => {
+  const url = `${SITE_URL}/ramblings/${entry.slug}`
+  const description = getSnippet(entry.content) || 'Rambling'
+  const publishedAt = entry.publishedAt ? new Date(entry.publishedAt as string) : new Date()
+
+  return `<item>
+    <title>${escapeXml(entry.title)}</title>
+    <link>${escapeXml(url)}</link>
+    <guid isPermaLink="true">${escapeXml(url)}</guid>
+    <description>${escapeXml(description)}</description>
+    <category>Rambling</category>
+    <pubDate>${publishedAt.toUTCString()}</pubDate>
+  </item>`
+}
+
 export const revalidate = 1800
 
 export async function GET() {
   const payload = await getPayload({ config: configPromise })
-  const result = await payload.find({
-    collection: 'blog',
-    depth: 1,
-    draft: false,
-    limit: 50,
-    sort: '-publishedAt',
-    where: {
-      publishedAt: {
-        less_than_equal: new Date().toISOString(),
-      },
-    },
-  })
+  const nowIso = new Date().toISOString()
 
-  const posts = result.docs as RequiredDataFromCollectionSlug<'blog'>[]
-  const items = posts.map(serializePost).join('\n')
+  const [blogResult, ramblingResult] = await Promise.all([
+    payload.find({
+      collection: 'blog',
+      depth: 1,
+      draft: false,
+      limit: 50,
+      sort: '-publishedAt',
+      where: {
+        publishedAt: {
+          less_than_equal: nowIso,
+        },
+      },
+    }),
+    payload.find({
+      collection: 'ramblings',
+      depth: 0,
+      draft: false,
+      limit: 50,
+      sort: '-publishedAt',
+      where: {
+        publishedAt: {
+          less_than_equal: nowIso,
+        },
+      },
+    }),
+  ])
+
+  const blogItems = (blogResult.docs as RequiredDataFromCollectionSlug<'blog'>[]).map(serializePost)
+  const ramblingItems = (ramblingResult.docs as RequiredDataFromCollectionSlug<'ramblings'>[]).map(
+    serializeRambling,
+  )
+
+  const items = [...blogItems, ...ramblingItems]
+    .sort((a, b) => {
+      const dateA = getPubDateFromItem(a)
+      const dateB = getPubDateFromItem(b)
+      return dateB.getTime() - dateA.getTime()
+    })
+    .join('\n')
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
@@ -69,4 +110,34 @@ export async function GET() {
       'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=3600',
     },
   })
+}
+
+function getSnippet(content: unknown, limit = 255) {
+  const raw = extractText(content)
+  if (!raw) return ''
+  const normalized = raw.replace(/\s+/g, ' ').trim()
+  if (normalized.length <= limit) return normalized
+  return `${normalized.slice(0, limit).trim()}…`
+}
+
+function extractText(node: any): string {
+  if (!node) return ''
+  if (typeof node === 'string') return node
+  if (typeof node?.text === 'string') return node.text
+
+  if (Array.isArray(node?.children)) {
+    return node.children.map((child: unknown) => extractText(child)).join(' ')
+  }
+
+  if (node?.root) {
+    return extractText(node.root)
+  }
+
+  return ''
+}
+
+function getPubDateFromItem(item: string) {
+  const match = item.match(/<pubDate>(.*?)<\/pubDate>/)
+  if (!match) return new Date(0)
+  return new Date(match[1])
 }

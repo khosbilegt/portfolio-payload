@@ -16,6 +16,7 @@ const defaultLinks: NavLink[] = [
   { label: 'Home', href: '/' },
   { label: 'Services', href: '/services' },
   { label: 'Blog', href: '/blog' },
+  { label: 'Ramblings', href: '/ramblings' },
 ]
 
 function Navbar({

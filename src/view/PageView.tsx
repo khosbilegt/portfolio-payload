@@ -20,28 +20,36 @@ export default async function PageView({ slug }: { slug: string }) {
 }
 
 const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
- let slugToUse = slug
-  if (slug?.length < 1 || slug === null || slug === undefined || slug === '' || slug === '/') {
-    slugToUse = 'home'
-  }
-
-  console.log('slugToUse', slugToUse)
+  let slugToUse = slug?.trim() || '/'
+  if (slugToUse.length < 1) slugToUse = '/'
 
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
-  const result = await payload.find({
-    collection: 'pages',
-    draft,
-    limit: 1,
-    pagination: false,
-    where: {
-      slug: {
-        equals: slugToUse,
-      },
-    },
-  })
 
-  return result.docs?.[0] || null
+  const fetchBySlug = async (value: string) => {
+    const res = await payload.find({
+      collection: 'pages',
+      draft,
+      limit: 1,
+      pagination: false,
+      where: {
+        slug: {
+          equals: value,
+        },
+      },
+    })
+
+    return res.docs?.[0] || null
+  }
+
+  const primary = await fetchBySlug(slugToUse)
+  if (primary) return primary
+
+  if (slugToUse === '/') {
+    return await fetchBySlug('home')
+  }
+
+  return null
 })
 
 async function injectBlogCardsPosts(blocks: any[]): Promise<any[]> {
@@ -94,7 +102,7 @@ async function injectBlogCardsPosts(blocks: any[]): Promise<any[]> {
       })
 
       return { ...block, posts: normalizedPosts }
-    })
+    }),
   )
 
   return mappedBlocks

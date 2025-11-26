@@ -12,6 +12,7 @@ import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { Blog } from './collections/Blog'
+import { Ramblings } from './collections/Ramblings'
 import { CodeBlock } from './blocks/code/config'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 
@@ -25,7 +26,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Pages, Users, Media, Blog],
+  collections: [Pages, Users, Media, Blog, Ramblings],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [
       ...defaultFeatures,

@@ -63,7 +63,7 @@ export default async function BlogView({ slug }: { slug: string }) {
                     <img
                       src={authorAvatar as string}
                       alt={authorName}
-                      className="w-full h-full object-cover rounded-full mr-4"
+                      className="w-full h-full object-cover rounded-full"
                     />
                   ) : (
                     <span className="text-white">
@@ -111,7 +111,7 @@ export default async function BlogView({ slug }: { slug: string }) {
                     <img
                       src={authorAvatar as string}
                       alt={authorName}
-                      className="w-full h-full object-cover rounded-full mr-4"
+                      className="w-full h-full object-cover rounded-full"
                     />
                   ) : (
                     <span className="text-white">

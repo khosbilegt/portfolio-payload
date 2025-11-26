@@ -14,10 +14,19 @@ export default async function PageView({ slug }: { slug: string }) {
     return <NotFound />
   }
 
-  return <RenderBlocks blocks={page?.blocks || []} />
+  const blocksWithInjectedPosts = await injectBlogCardsPosts(page?.blocks || [])
+
+  return <RenderBlocks blocks={blocksWithInjectedPosts} />
 }
 
 const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
+ let slugToUse = slug
+  if (slug?.length < 1 || slug === null || slug === undefined || slug === '' || slug === '/') {
+    slugToUse = 'home'
+  }
+
+  console.log('slugToUse', slugToUse)
+
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
   const result = await payload.find({
@@ -27,10 +36,66 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
     pagination: false,
     where: {
       slug: {
-        equals: slug,
+        equals: slugToUse,
       },
     },
   })
 
   return result.docs?.[0] || null
 })
+
+async function injectBlogCardsPosts(blocks: any[]): Promise<any[]> {
+  if (!Array.isArray(blocks) || blocks.length === 0) return blocks
+
+  const { isEnabled: draft } = await draftMode()
+  const payload = await getPayload({ config: configPromise })
+
+  const mappedBlocks = await Promise.all(
+    blocks.map(async (block) => {
+      if (block?.blockType !== 'blogCards') return block
+
+      const showCount: number = typeof block?.showCount === 'number' ? block.showCount : 3
+
+      // If posts provided in CMS, keep them; otherwise query latest
+      const hasProvidedPosts = Array.isArray(block?.posts) && block.posts.length > 0
+      if (hasProvidedPosts) return block
+
+      const result = await payload.find({
+        collection: 'blog',
+        draft,
+        depth: 1,
+        limit: showCount,
+        pagination: true,
+        sort: '-publishedAt',
+      })
+
+      const normalizedPosts = (result?.docs || []).map((doc: any) => {
+        const authorName =
+          typeof doc.author === 'object' && doc.author && 'name' in doc.author
+            ? (doc.author as any).name
+            : undefined
+
+        const image = doc?.meta?.image
+        const imageObj =
+          image && typeof image === 'object'
+            ? { url: image.sizes?.card?.url || image.url, alt: doc.title as string }
+            : undefined
+
+        return {
+          title: doc.title,
+          excerpt: doc?.meta?.description || doc?.excerpt || '',
+          slug: doc.slug,
+          publishedAt: doc.publishedAt,
+          author: authorName,
+          featuredImage: imageObj,
+          category: doc.category,
+          tags: (doc?.meta?.tags || []).map((t: any) => ({ tag: t?.tag || '' })),
+        }
+      })
+
+      return { ...block, posts: normalizedPosts }
+    })
+  )
+
+  return mappedBlocks
+}

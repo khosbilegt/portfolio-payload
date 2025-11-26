@@ -1,6 +1,7 @@
+
 'use client'
 
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 
 interface BlogPost {
   title: string
@@ -34,51 +35,9 @@ function BlogCards({
   viewAllLink = '/blog',
   posts = [],
 }: BlogCardsProps) {
-  const [fetched, setFetched] = useState<BlogPost[] | null>(null)
-  const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    if (posts && posts.length > 0) return
-    const controller = new AbortController()
-    const run = async () => {
-      try {
-        setLoading(true)
-        const res = await fetch(`/api/blog?limit=${showCount}&page=1&sort=-publishedAt&depth=1`, {
-          signal: controller.signal,
-          headers: { Accept: 'application/json' },
-        })
-        if (!res.ok) throw new Error('Failed to load blog posts')
-        const json = await res.json()
-        const docs = Array.isArray(json?.docs) ? json.docs : []
-        const normalized: BlogPost[] = docs.map((doc: any) => ({
-          title: doc.title,
-          excerpt: doc.meta?.description || doc.excerpt || '',
-          slug: doc.slug,
-          publishedAt: doc.publishedAt,
-          author:
-            typeof doc.author === 'object' && doc.author ? (doc.author as any).name : undefined,
-          featuredImage:
-            doc.meta?.image && typeof doc.meta.image === 'object'
-              ? { url: doc.meta.image.sizes?.card?.url || doc.meta.image.url, alt: doc.title }
-              : undefined,
-          category: (doc as any).category,
-          tags: (doc.meta?.tags || []).map((t: any) => ({ tag: t?.tag || '' })),
-        }))
-        setFetched(normalized)
-      } catch (e) {
-        // noop
-      } finally {
-        setLoading(false)
-      }
-    }
-    run()
-    return () => controller.abort()
-  }, [posts, showCount])
-
   const displayPosts = useMemo(() => {
-    const base = posts && posts.length > 0 ? posts : fetched || []
-    return base.slice(0, showCount)
-  }, [posts, fetched, showCount])
+    return (posts || []).slice(0, showCount)
+  }, [posts, showCount])
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -103,11 +62,6 @@ function BlogCards({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {loading && displayPosts.length === 0 && (
-            <div className="col-span-full text-center text-gray-600 dark:text-gray-300">
-              Loading…
-            </div>
-          )}
           {displayPosts.map((post, index) => (
             <article
               key={index}

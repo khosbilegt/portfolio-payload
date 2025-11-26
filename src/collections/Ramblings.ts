@@ -35,6 +35,7 @@ export const Ramblings: CollectionConfig = {
         { label: 'Casual', value: 'casual' },
         { label: 'Reflective', value: 'reflective' },
         { label: 'Rant', value: 'rant' },
+        { label: 'Learning', value: 'learning' },
         { label: 'Changelog', value: 'changelog' },
       ],
       defaultValue: 'casual',

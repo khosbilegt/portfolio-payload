@@ -32,21 +32,21 @@ export default async function RamblingView({ slug }: { slug: string }) {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
-      <article className="pt-20">
-        <header className="max-w-3xl mx-auto px-6 py-12 md:py-16">
-          <p className="uppercase tracking-[0.25em] text-xs text-gray-500 dark:text-gray-400 mb-4">
+      <article className="max-w-3xl mx-auto px-6 py-12 md:py-14 space-y-10">
+        <header className="space-y-5">
+          <p className="uppercase tracking-[0.25em] text-xs text-gray-500 dark:text-gray-400">
             Rambling
           </p>
-          <h1 className="text-4xl md:text-5xl font-semibold leading-tight text-gray-900 dark:text-white mb-6">
+          <h1 className="text-4xl md:text-[2.75rem] font-semibold leading-tight text-gray-900 dark:text-white">
             {rambling.title}
           </h1>
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400 border-t border-b border-gray-100 dark:border-gray-800 py-4">
+          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400 border border-gray-100 dark:border-gray-800 rounded-2xl px-5 py-3 bg-white/70 dark:bg-gray-900/40">
             {formattedDate && (
               <time dateTime={rambling.publishedAt || undefined}>{formattedDate}</time>
             )}
             {rambling.tone && (
               <>
-                <span>•</span>
+                <span className="text-gray-400">•</span>
                 <span className="uppercase tracking-widest text-xs text-green-primary">
                   {rambling.tone}
                 </span>
@@ -58,19 +58,24 @@ export default async function RamblingView({ slug }: { slug: string }) {
           </div>
         </header>
 
-        <main className="max-w-3xl mx-auto px-6 pb-16">
-          <div className="prose prose-lg dark:prose-invert max-w-none leading-7 text-gray-800 dark:text-gray-100">
-            <RichText content={rambling.content} />
-          </div>
-          <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
-            <a
-              href="/ramblings"
-              className="text-sm text-gray-500 dark:text-gray-400 hover:text-green-primary transition-colors"
-            >
-              ← Back to ramblings
-            </a>
-          </div>
-        </main>
+        <div className="prose prose-lg dark:prose-invert max-w-none leading-7 text-gray-800 dark:text-gray-100">
+          <RichText content={rambling.content} />
+        </div>
+
+        <div className="pt-6 border-t border-gray-200 dark:border-gray-800 flex flex-col sm:flex-row sm:items-center gap-4 text-sm">
+          <a
+            href="/ramblings"
+            className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-green-primary transition-colors"
+          >
+            <span aria-hidden="true">←</span> Back to ramblings
+          </a>
+          <a
+            href="/"
+            className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-green-primary transition-colors"
+          >
+            Home <span aria-hidden="true">→</span>
+          </a>
+        </div>
       </article>
     </div>
   )

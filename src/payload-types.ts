@@ -587,7 +587,7 @@ export interface Rambling {
   id: string;
   title: string;
   slug: string;
-  tone?: ('casual' | 'reflective' | 'rant' | 'changelog') | null;
+  tone?: ('casual' | 'reflective' | 'rant' | 'learning' | 'changelog') | null;
   /**
    * Used for ordering and RSS feeds.
    */

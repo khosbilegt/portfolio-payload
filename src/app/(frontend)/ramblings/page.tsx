@@ -18,6 +18,9 @@ export const metadata = {
     'Unpolished notes, half-formed thoughts, and quick updates — inspired by DHH-style weblogging.',
 }
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default async function RamblingsIndex() {
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })

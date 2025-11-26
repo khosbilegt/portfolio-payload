@@ -46,7 +46,8 @@ const serializeRambling = (entry: RequiredDataFromCollectionSlug<'ramblings'>) =
   </item>`
 }
 
-export const revalidate = 1800
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export async function GET() {
   const payload = await getPayload({ config: configPromise })
